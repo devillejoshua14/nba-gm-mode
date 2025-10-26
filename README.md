@@ -117,4 +117,4 @@ This project reinforced:
 
 ## 👨‍💻 Author
 **Joshua DeVille**  
-🔗 [GitHub Profile](https://github.com/devillejoshuah)
+🔗 [GitHub Profile](https://github.com/devillejoshua14)
