@@ -39,6 +39,18 @@ function MyTeamSidebar({ isOpen, onClose, team, totalSalary, salaryCap }) {
         {salaryCap.toLocaleString()}
       </p>
 
+      <p
+        style={{
+          color: totalSalary > salaryCap ? "#ff4444" : "#0f0",
+          fontWeight: "bold",
+          marginBottom: "1rem",
+        }}
+      >
+        {totalSalary > salaryCap
+          ? "⚠️ Over the Salary Cap!"
+          : "Within Cap Limit ✅"}
+      </p>
+
       <hr style={{ border: "1px solid #333", margin: "1rem 0" }} />
 
       {team.length === 0 ? (
@@ -62,6 +74,11 @@ function MyTeamSidebar({ isOpen, onClose, team, totalSalary, salaryCap }) {
               <small>
                 {player.team.full_name} — {player.position || "N/A"}
               </small>
+              <br /> 
+              <span style={{color: "#0f0", fontWeight: "bold"}}>
+                💰 ${player.salary.toLocaleString()}
+              </span>
+              
             </li>
           ))}
         </ul>

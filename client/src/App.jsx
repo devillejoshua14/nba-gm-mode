@@ -1,9 +1,9 @@
 import PlayerList from "./components/PlayerList";
+/*import SyncButton from "./components/SyncButton";*/
 
 function App() {
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <h1>🏀 NBA GM Mode</h1>
       <PlayerList />
     </div>
   );

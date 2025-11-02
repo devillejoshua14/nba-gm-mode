@@ -3,6 +3,20 @@ import axios from "axios";
 import PlayerCard from "./PlayerCard";
 import MyTeamSidebar from "./MyTeamSidebar";
 
+// 💰 Assign a realistic salary based on position and random variation
+function getPlayerSalary(player) {
+  const baseByPosition = {
+    G: 8000000, // Guards
+    F: 10000000, // Forwards
+    C: 12000000, // Centers
+  };
+
+  const base = baseByPosition[player.position] || 9000000;
+  const variance = Math.random() * 10000000; // adds variety
+  return Math.floor(base + variance);
+}
+
+
 function PlayerList() {
   const [players, setPlayers] = useState([]);
   const [search, setSearch] = useState("");
@@ -138,7 +152,8 @@ function PlayerList() {
             <button
               onClick={() => {
                 if (!team.find((p) => p.id === player.id)) {
-                  setTeam([...team, player]);
+                  const salary = getPlayerSalary(player);
+                  setTeam([...team, {...player, salary}]);
                 }
               }}
               disabled={team.find((p) => p.id === player.id)}
@@ -165,7 +180,7 @@ function PlayerList() {
         isOpen={IsSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         team={team}
-        totalSalary={team.length * 10000000} // temp $10M per player
+        totalSalary={team.reduce((sum, p) => sum + p.salary, 0)}
         salaryCap={salaryCap}
       />
 
