@@ -1,37 +1,44 @@
 # 🏀 NBA GM Mode
 
-## 📖 Overview
-**NBA GM Mode** is a full-stack basketball management dashboard that uses the **Ball Don’t Lie API** to display detailed NBA player data. Users can explore player information, load more results through pagination, and experience smooth frontend-backend integration powered by **React** and **Express**.
+**Tech Stack:** MERN (MongoDB, Express, React, Node.js) + External NBA API  
 
-This project demonstrates API integration, pagination handling, backend routing, and responsive frontend design — built from scratch as part of a learning journey in modern web development.
-
----
-
-## 🚀 Tech Stack
-
-**Frontend:**
-- React (Vite)
-- Axios
-- CSS Flexbox for layout
-
-**Backend:**
-- Node.js
-- Express.js
-- Axios
-- Dotenv for environment variables
-
-**Other Tools:**
-- Ball Don’t Lie API (for live player data)
-- Git / GitHub for version control
+A full-stack NBA management simulation where users can act as a General Manager — drafting players, managing a salary cap, and building their ultimate team.
 
 ---
 
-## 🧩 Features
-✅ Fetches live NBA player data from Ball Don’t Lie API  
-✅ Implements pagination & “Load More Players” button  
-✅ Responsive player cards displaying team, position, height, and weight  
-✅ Error handling and loading states  
-✅ Secure `.env` file for API key management  
+## 🚀 Features
+
+✅ Fetches real NBA player data via external API  
+✅ Draft players and manage your roster  
+✅ Tracks salary cap in real time  
+✅ Calculates team performance rating dynamically  
+✅ Search and filter by name, team, or position  
+✅ MongoDB caching layer to handle rate limits  
+✅ Dark, NBA-themed UI styled with React inline CSS  
+
+---
+
+## 🧠 Tech Overview
+
+**Frontend**
+- React (Vite)  
+- Axios for API calls  
+- Dynamic components: PlayerCard, PlayerList, MyTeamSidebar  
+
+**Backend**
+- Node.js + Express server  
+- MongoDB (Atlas) for caching and persistence  
+- Axios to retrieve player data from [balldontlie.io](https://www.balldontlie.io)  
+- Environment variables via `.env`
+
+---
+
+## ⚙️ Setup & Run
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/nba-gm-mode.git
+cd nba-gm-mode
 
 ---
 
@@ -39,22 +46,23 @@ This project demonstrates API integration, pagination handling, backend routing,
 ```
 nba-gm-mode/
 │
-├── client/           # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── PlayerCard.jsx
-│   │   │   ├── PlayerList.jsx
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   ├── package.json
+├── client/ # React frontend
+│ ├── src/
+│ │ ├── components/
+│ │ │ ├── PlayerCard.jsx
+│ │ │ ├── PlayerList.jsx
+│ │ │ └── MyTeamSidebar.jsx
+│ │ ├── App.jsx
+│ │ ├── main.jsx
+│ ├── package.json
 │
-├── server/           # Node backend
-│   ├── routes/
-│   │   └── nbaRoutes.js
-│   ├── server.js
-│   ├── package.json
+├── server/ # Node backend
+│ ├── routes/
+│ │ └── nbaRoutes.js
+│ ├── server.js
+│ ├── package.json
 │
-├── .env              # (ignored)
+├── .env # (ignored)
 ├── .gitignore
 └── README.md
 ```
@@ -104,14 +112,15 @@ This project reinforced:
 - Coordinating frontend and backend integration
 - Managing environment variables securely
 - Building reusable UI components with React
+- Implementing a caching strategy with MongoDB
 
 ---
 
 ## 🏁 Future Enhancements
-- Add MongoDB caching to reduce API calls  
-- Add player search functionality  
-- Filter by position or team  
-- Improve mobile styling and UI animations  
+- Team Matchups and simualtions
+- Enhanced Stats vizualization
+- Filter by team  
+- Minor UI/UX imporovements 
 
 ---
 
