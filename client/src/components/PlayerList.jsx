@@ -16,6 +16,17 @@ function getPlayerSalary(player) {
   return Math.floor(base + variance);
 }
 
+function getPlayerRating() {
+  // Simulated stats since the API doesn't provide full stats in /players
+  const points = Math.random() * 30; // 0–30
+  const rebounds = Math.random() * 12; // 0–12
+  const assists = Math.random() * 10; // 0–10
+
+  // Weighted formula — tune these to change difficulty
+  const rating = (points * 0.5) + (rebounds * 0.3) + (assists * 0.2);
+  return Math.round(rating);
+}
+
 
 function PlayerList() {
   const [players, setPlayers] = useState([]);
@@ -24,7 +35,7 @@ function PlayerList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [team, setTeam] = useState([]);
-  const [IsSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const salaryCap = 150000000;
 
   useEffect(() => {
@@ -67,21 +78,42 @@ function PlayerList() {
     <div style={{ textAlign: "center", padding: "2rem" }}>
       <h1>🏀 NBA GM Mode</h1>
 
-      <button
-        onClick={() => setIsSidebarOpen(true)}
-        style={{
-          marginBottom: "1rem",
-          padding: "0.75rem 1.5rem",
-          backgroundColor: "#28a745",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "1rem",
-        }}
-      >
-        View My Team ({team.length})
-      </button>
+      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "1rem" }}>
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          style={{
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          View My Team ({team.length})
+        </button>
+        {team.length > 0 && (
+          <button
+            onClick={() => {
+              if (window.confirm("Are you sure you want to clear your entire team?")) {
+                setTeam([]);
+              }
+            }}
+            style={{
+              padding: "0.75rem 1.5rem",
+              backgroundColor: "#dc3545",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
+          >
+            Clear Team
+          </button>
+        )}
+      </div>
 
 
       {/* 🔍 Search + Filter Controls */}
@@ -108,15 +140,15 @@ function PlayerList() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
+            width: "50%",
             padding: "0.75rem 1rem",
-            flex: "1",
-            minWidth: "250px",
-            borderRadius: "8px",
-            border: "1px solid #444",
             fontSize: "1rem",
-            backgroundColor: "#222",
-            color: "#fff",
+            borderRadius: "8px",
+            border: "1px solid #333",
             outline: "none",
+            backgroundColor: "#1e1e1e",
+            color: "#fff",
+            marginBottom: "2rem"
           }}
         />
 
@@ -146,42 +178,53 @@ function PlayerList() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center" }}>
-        {filteredPlayers.map((player) => (
-          <div key={player.id} style={{ position: "relative" }}>
-            <PlayerCard player={player} />
-            <button
-              onClick={() => {
-                if (!team.find((p) => p.id === player.id)) {
-                  const salary = getPlayerSalary(player);
-                  setTeam([...team, {...player, salary}]);
-                }
-              }}
-              disabled={team.find((p) => p.id === player.id)}
-              style={{
-                position: "absolute",
-                bottom: "10px",
-                right: "10px",
-                backgroundColor: team.find((p) => p.id === player.id) ? "#666" : "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "0.5rem 1rem",
-                cursor: team.find((p) => p.id === player.id) ? "not-allowed" : "pointer",
-              }}
-            >
-              {team.find((p) => p.id === player.id) ? "Drafted" : "Draft"}
-          </button>
-      </div>
-
-        ))}
+        {filteredPlayers.map((player) => {
+          const isInTeam = team.some((p) => p.id === player.id);
+          const teamPlayer = team.find((p) => p.id === player.id);
+          
+          return (
+            <div key={player.id} style={{ position: "relative" }}>
+              <PlayerCard 
+                player={teamPlayer || player} 
+                isDrafted={isInTeam}
+              />
+              <button
+                onClick={() => {
+                  if (!isInTeam) {
+                    const salary = getPlayerSalary(player);
+                    const rating = getPlayerRating(player);
+                    setTeam([...team, {...player, salary, rating}]);
+                  }
+                }}
+                disabled={isInTeam}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  right: "10px",
+                  backgroundColor: isInTeam ? "#666" : "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  padding: "0.5rem 1rem",
+                  cursor: isInTeam ? "not-allowed" : "pointer",
+                }}
+              >
+                {isInTeam ? "Drafted" : "Draft"}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       <MyTeamSidebar
-        isOpen={IsSidebarOpen}
+        isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         team={team}
         totalSalary={team.reduce((sum, p) => sum + p.salary, 0)}
         salaryCap={salaryCap}
+        onRemovePlayer={(playerId) => {
+          setTeam(team.filter((p) => p.id !== playerId));
+        }}
       />
 
       {!loading && filteredPlayers.length === 0 && (
