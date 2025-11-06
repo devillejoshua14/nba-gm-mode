@@ -42,7 +42,7 @@ function PlayerList() {
     const fetchPlayers = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:5001/api/players");
+        const res = await axios.get("https://nba-gm-mode.onrender.com/api/players");
         console.log("API Response:", res.data);
         const playerArray = Array.isArray(res.data) ? res.data : res.data.data;
         setPlayers(playerArray || []);
