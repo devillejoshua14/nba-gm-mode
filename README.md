@@ -124,6 +124,41 @@ This project reinforced:
 
 ---
 
+🌐 Deployment Confirmation
+
+Frontend: Deployed on Vercel
+
+Backend: Deployed on Render
+
+Database: Hosted on MongoDB Atlas
+
+✅ Live Demo: https://nba-gm-mode.vercel.app
+
+✅ API Endpoint: https://nba-gm-mode.onrender.com/api/players
+
+⚙️ Deployment Architecture
+Layer	Platform	URL	Description
+Frontend (React/Vite)	Vercel	nba-gm-mode.vercel.app	Renders the interactive GM interface
+Backend (Express/Node)	Render	nba-gm-mode.onrender.com	Handles API requests & MongoDB caching
+Database (MongoDB Atlas)	MongoDB Cloud	—	Stores cached NBA player data
+🔒 Environment Variables
+
+MONGODB_URI → Atlas cluster connection
+
+BALLDONTLIE_API_KEY → External NBA data API key
+
+CORS_ORIGIN → Allows Vercel frontend access to Render backend
+
+🏁 Deployment Verification
+
+✅ API responds with live NBA player JSON
+
+✅ Frontend successfully fetches & displays players
+
+✅ Draft / Salary Cap / Team features work in production
+
+✅ Both environments isolated via .env and .gitignore
+
 ## 👨‍💻 Author
 **Joshua DeVille**  
 🔗 [GitHub Profile](https://github.com/devillejoshua14)
